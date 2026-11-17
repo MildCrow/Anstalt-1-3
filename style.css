@@ -1,0 +1,94 @@
+/* Layout: one 16:9 CRT stage, HUD in the top corners, one overlay reused for menu, pause and death.
+   Single dark look by choice: this is a horror game and it must not follow a light theme. */
+:root {
+  color-scheme: dark;
+  --bg: #060505;
+  --bone: #d8d0c0;
+  --blood: #a11616;
+  --sick: #8fb08a;
+  --dim: #7a7365;
+  --font-display: 'Special Elite', ui-monospace, 'Courier New', monospace;
+  --font-hud: 'VT323', ui-monospace, 'Courier New', monospace;
+}
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--bone);
+  font-family: var(--font-hud);
+  padding-block: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+#stage {
+  position: relative;
+  width: min(100%, calc(100dvh + 16 / 9));
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  background: #000;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  box-shadow: 0 0 0 1px #1c1816, 0 0 60px rgba(120, 0, 0, .18);
+}
+#view { width: 100%; height: 100%; display: block; image-rendering: pixelated; background: #000; }
+#scare { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; image-rendering: auto; z-index: 3; }
+#crt {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+}
+#hud {
+  position: absolute; inset: 0; pointer-event: none; z-index: 2;
+  font-size: clamp(14px, 2.6vw, 28px); letter-spacing: .08em; color: var(--sick);
+  text-shadow: 0 0 4px #000;
+}
+#hud.tl { position: absolute; top: 3%; left: 2.5%; }
+#hud .tr { position: absolute; top: 3%; right: 2.5%; display: grid; gap: 4px; justify-items: end; }
+#hud .lbl { color: var(--dim); }
+.bar { width: clamp(80px, 14vw, 170px); height: 6px; background: rgba(255,255,255,.12); }
+.bar i { display: block; height: 100%; width: 100%; background: var(--sick); transition: background .2s; }
+.bar i.low { background: var(--blood); }
+#sub {
+  position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
+  max-width: 86%; text-align: center; z-index: 2; pointer-events: none;
+  font: 400 clamp(13px, 2.3vw, 24px)/1.3 var(--font-display);
+  color: var(--bone); text-shadow: 0 0 6px #000, 0 0 2px #000;
+  opacity: 0; transition: opacity .35s;
+}
+#sub.on { opacity: 1; }
+.overlay {
+  position: absolute; inset: 0; z-index: 5; overflow: auto;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(8px, 1.8vw, 16px); padding: 4%; text-align: center;
+  background: radial-gradient(ellipse at 50% 40%, rgba(34, 6, 6, .86), rgba(0, 0, 0, .97));
+}
+.overlay[hidden] { display: none; }
+h1 {
+  margin: 0; font: 400 clamp(30px, 8vw, 84px)/1 var(--font-display);
+  letter-spacing: .14em; color: var(--bone);
+  text-shadow: 2px 0 var(--blood), -2px 0 #1a3a4a;
+  animation: flick 5s infinite;
+}
+@keyframes flick { 0%, 91%, 100% { opacity: 1; } 92% { opacity: .35; } 93% { opacity: 1; } 95% { opacity: .55; } 96% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { h1 { animation: none; } }
+.overlay p { margin: 0; max-width: 46ch; font: 400 clamp(12px, 1.9vw, 18px)/1.45 var(--font-display); color: var(--bone); }
+.warn { border: 1px solid var(--blood); padding: .6em .9em; color: #e2a9a9 !important; max-width: 52ch; }
+.ctrl { font: 400 clamp(14px, 2.1vw, 22px)/1.3 var(--font-hud) !important; color: var(--dim) !important; letter-spacing: .06em; }
+.opts { display: flex; flex-wrap: wrap; gap: .6em 1.6em; justify-content: center; align-items: center; font: 400 clamp(14px, 2vw, 20px) var(--font-hud); color: var(--dim); letter-spacing: .06em; }
+.opts label { display: inline-flex; gap: .5em; align-items: center; }
+.opts input[type=range] { accent-color: var(--blood); width: clamp(90px, 16vw, 160px); }
+.opts input[type=checkbox] { accent-color: var(--blood); }
+button {
+  font: 400 clamp(16px, 2.6vw, 24px) var(--font-display); letter-spacing: .12em; text-transform: uppercase;
+  background: transparent; color: var(--bone); border: 1px solid var(--bone);
+  padding: .6em 1.8em; cursor: pointer;
+}
+button:hover { background: var(--bone); color: #000; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--blood); outline-offset: 3px; }
+#tbtns { display: none; position: absolute; right: 2.5%; bottom: 4%; gap: 10px; z-index: 4; }
+#tbtns button { padding: .5em 1em; font-size: 15px; background: rgba(0,0,0,.5); }
+@media (pointer: coarse) { #tbtns { display: flex; } }
