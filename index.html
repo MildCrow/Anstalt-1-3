@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anstalt 13</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=VT323&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="view"></canvas>
+  <canvas id="scare"></canvas>
+  <div id="crt"></div>
+  <div id="hud">
+    <div class="tl"><span class="lbl">SICHERUNGEN</span> <span id="hFuse">0/5</span></div>
+    <div class="tr">
+      <div><span class="lbl">AKKU</span></div><div class="bar"><i id="bBat"></i></div>
+      <div><span class="lbl">KRAFT</span></div><div class="bar"><i id="bSta"></i></div>
+    </div>
+  </div>
+  <div id="sub"></div>
+  <div id="tbtns">
+    <button id="tLight" type="button">Licht</button>
+    <button id="tRun" type="button">Rennen</button>
+  </div>
+  <div class="overlay" id="ov">
+    <h1 id="ttl">ANSTALT 13</h1>
+    <p id="txt">Du bist in einer verlassenen Heilanstalt eingesperrt. Finde fünf Sicherungen und öffne den Ausgang. Etwas wandert durch die Gänge.</p>
+    <p class="warn" id="warn">Achtung: sehr laute, plötzliche Schreckmomente und Lichtblitze. Nicht geeignet bei Epilepsie, Herzproblemen oder für Kinder. Kopfhörer empfohlen, aber erst die Lautstärke prüfen.</p>
+    <p class="ctrl" id="ctrl">W A S D gehen · Maus oder Pfeiltasten umsehen · Shift rennen · F Taschenlampe · P Pause</p>
+    <div class="opts" id="opts">
+      <label for="vol">Lautstärke <input id="vol" type="range" min="0" max="100" value="60"></label>
+      <label for="calm"><input id="calm" type="checkbox"> Weniger Blitze</label>
+    </div>
+    <button id="go" type="button">Spiel starten</button>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
